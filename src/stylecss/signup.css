@@ -1,0 +1,17 @@
+/* .body{
+        background-color: linear-gradient(90deg, rgb(57, 51, 189) 0%, rgb(40, 106, 161) 35%, rgb(156, 159, 136) 100%);
+
+} */
+.page-background {
+    background: linear-gradient(90deg, rgb(57, 51, 189) 0%, rgb(40, 106, 161) 35%, rgb(156, 159, 136) 100%);
+}
+@media (min-width: 768px){
+    .mb-3{
+        margin-left: 27rem;
+        margin-right: 27rem;
+    }
+    
+}
+.checkbox{
+    margin-left: 45rem;
+}
