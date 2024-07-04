@@ -1,27 +1,6 @@
 import { Link } from "react-router-dom";
 import "../stylecss/home.css";
 
-
-// const imageSources = [
-//     { src: "images/robo.jpg", link: "/p1" },
-//     { src: "images/robo.jpg", link: "/p2" },
-//     { src: "images/robo.jpg", link: "/p3" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-//     { src: "images/robo.jpg", link: "/p4" },
-
-//     // Add more images as needed
-// ];
 const Home = () => {
     return (
         <div>
