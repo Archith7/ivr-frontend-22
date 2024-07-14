@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "name": "iPhone 12",
+      "description": "Latest iPhone model",
+      "price": 999,
+      "category": "electronics",
+      "image": "C:/Users/archi/Desktop/frontend/public/images/ele1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Samsung Galaxy S21",
+      "description": "Latest Samsung model",
+      "price": 899,
+      "category": "electronics",
+      "image": "images/ele2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "MacBook Pro",
+      "description": "Latest MacBook model",
+      "price": 1999,
+      "category": "electronics",
+      "image": "images/ele3.jpg"
+    },
+    {
+      "id": 4,
+      "name": "Levi's Jeans",
+      "description": "Comfortable jeans",
+      "price": 49,
+      "category": "fashion",
+      "image": "images/fash1.webp"
+    },
+    {
+      "id": 5,
+      "name": "Nike T-Shirt",
+      "description": "Comfortable T-shirt",
+      "price": 29,
+      "category": "fashion",
+      "image": "images/fash1.png"
+    }
+  ]
+  
