@@ -33,27 +33,38 @@ function Login() {
 
     }
     return (
-        <div>
-            <h3>login here</h3>
+        <div className="container">
+          <div className="logincard">
+            <Link className="login">Log in</Link>
             <form onSubmit={evehandler}>
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={(e)=>setEmail(e.target.value)}/>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" onChange={(e)=>setPassword(e.target.value)}/>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <br />
-                <br />
-                {/* <p>Dont have an Accout ?</p> */}
-                <Link className="nav-link" to={'/signup'}><h6>Dont have an Accout ?</h6>  Click here</Link>
-
+              <div className="inputBox">
+                <input
+                  type="email"
+                  required="required"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <span className="user">Email address</span>
+              </div>
+              <div className="inputBox">
+                <input
+                  type="password"
+                  required="required"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <span>Password</span>
+              </div>
+              <button type="submit" className="enter">
+                Enter
+              </button>
             </form>
+            <Link className="signup-link" to={'/signup'}>
+              <h6>Dont have an Account? Click here</h6>
+            </Link>
+          </div>
         </div>
-    )
-}
+      );
+    };
 
 export default Login
