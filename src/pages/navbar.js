@@ -70,17 +70,17 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link to="/home" className="navbar-brand">ShopEase</Link>
+        <Link to="/" className="navbar-brand">ShopEase</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link to="/home" className="nav-link active" aria-current="page" onClick={handleNavItemClick}>Home</Link>
+            <Link to="/" className="nav-link active" aria-current="page" onClick={handleNavItemClick}>Home</Link>
             <Link to="/orders" className="nav-link" onClick={handleNavItemClick}>Orders</Link>
             <Link to="/customercare" className="nav-link" onClick={handleNavItemClick}>Customer Care</Link>
             <Link to="/aboutus" className="nav-link" onClick={handleNavItemClick}>About Us</Link>
-            <Link to="/" className="nav-link" onClick={handleNavItemClick}>Login</Link>
+            <Link to="/login" className="nav-link" onClick={handleNavItemClick}>Login</Link>
           </div>
         </div>
       </div>

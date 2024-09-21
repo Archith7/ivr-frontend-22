@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import io from 'socket.io-client';
-import '../stylecss/webrtc.css';
+import '../stylecss/webrtc.css';  // Import the CSS file
 
 const socket = io('http://localhost:5000'); // Change to your backend URL
 
@@ -20,8 +20,8 @@ const Webrtc = () => {
   const [localStream, setLocalStream] = useState(null);
   const remoteAudioRef = useRef();
   const peerConnectionRef = useRef();
-  const iceCandidatesRef = useRef([]);
-  const targetUserRef = useRef(null);
+  const iceCandidatesRef = useRef([]);  // Queue to store ICE candidates before setting remote description
+  const targetUserRef = useRef(null); // Ref to store the current target user for calls
 
   useEffect(() => {
     const getMedia = async () => {
@@ -33,16 +33,18 @@ const Webrtc = () => {
         console.error('Error accessing media devices.', error);
       }
     };
-
+  
     getMedia();
-
+  
     return () => {
+      // Cleanup socket listeners
       socket.off('offer', handleOffer);
       socket.off('answer', handleAnswer);
       socket.off('candidate', handleCandidate);
       socket.off('onlineUsers', handleOnlineUsers);
     };
   }, []);
+  
 
   useEffect(() => {
     socket.on('onlineUsers', handleOnlineUsers);
@@ -59,24 +61,17 @@ const Webrtc = () => {
   };
 
   const handleOnlineUsers = (users) => {
-    setOnlineUsers(users.filter(user => user !== username));
+    setOnlineUsers(users.filter(user => user !== username)); // Exclude self from online users
   };
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     const isAuthenticated = authorizedUsers.some(user => user.username === username && user.password === password);
     if (isAuthenticated) {
-      try {
-        if (!localStream) {
-          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          setLocalStream(stream);
-        }
-        socket.emit('login', username);
-        setIsOnline(true);
-        setAuthenticated(true);
-        setOnlineUsers(prevUsers => [...prevUsers, username]);
-      } catch (error) {
-        console.error('Error accessing media devices.', error);
-      }
+      socket.emit('login', username);
+      setIsOnline(true); // Mark user as online
+      setAuthenticated(true);
+      // Update local state immediately (optimistic update)
+      setOnlineUsers(prevUsers => [...prevUsers, username]);
     } else {
       console.error('Invalid credentials.');
     }
@@ -93,17 +88,7 @@ const Webrtc = () => {
       return;
     }
 
-    if (!localStream) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        setLocalStream(stream);
-      } catch (error) {
-        console.error('Error accessing media devices.', error);
-        return;
-      }
-    }
-
-    const targetUser = onlineUsers[0];
+    const targetUser = onlineUsers[0]; // Select the first available user (arbitrary choice for demonstration)
     targetUserRef.current = targetUser;
     const peerConnection = createPeerConnection();
     peerConnectionRef.current = peerConnection;
@@ -118,36 +103,23 @@ const Webrtc = () => {
   };
 
   const handleOffer = async ({ offer, sender }) => {
-    if (!localStream) {
-      console.error('Local stream not available.');
-      return;
-    }
-
-    const peerConnection = createPeerConnection();
-    if (!peerConnection) {
-      console.error('Failed to create peer connection.');
-      return;
-    }
-    peerConnectionRef.current = peerConnection;
-
     try {
-      await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await peerConnection.createAnswer();
-      await peerConnection.setLocalDescription(answer);
-      socket.emit('answer', { answer, sender });
-
-      iceCandidatesRef.current.forEach(async (candidate) => {
-        try {
-          await peerConnection.addIceCandidate(candidate);
-        } catch (error) {
-          console.error('Error adding queued ICE candidate:', error);
-        }
-      });
-      iceCandidatesRef.current = [];
+      if (!localStream) {
+        console.error('Local stream not available.');
+        return;
+      }
+  
+      const peerConnection = createPeerConnection();
+      peerConnectionRef.current = peerConnection;
+  
+      // Rest of your offer handling code
     } catch (error) {
       console.error('Error handling offer:', error);
     }
   };
+  
+  
+  
 
   const handleAnswer = async ({ answer }) => {
     const peerConnection = peerConnectionRef.current;
@@ -169,34 +141,26 @@ const Webrtc = () => {
         console.error('Error adding ICE candidate:', error);
       }
     } else {
+      // Queue the candidate if the remote description is not yet set
       iceCandidatesRef.current.push(new RTCIceCandidate(candidate));
       console.warn('Queued ICE candidate as remote description is not set yet.');
     }
   };
 
   const createPeerConnection = () => {
+    if (!localStream) {
+      console.error('Local stream not available when creating peer connection.');
+      return null; // or handle the error accordingly
+    }
+  
     const peerConnection = new RTCPeerConnection({
       iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
     });
-
-    peerConnection.onicecandidate = (event) => {
-      if (event.candidate) {
-        socket.emit('candidate', { candidate: event.candidate, targetUser: targetUserRef.current });
-      }
-    };
-
-    peerConnection.ontrack = (event) => {
-      remoteAudioRef.current.srcObject = event.streams[0];
-    };
-
-    if (localStream) {
-      localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-    } else {
-      console.error('Local stream not available when creating peer connection.');
-    }
-
+  
+    // Rest of your peer connection setup
     return peerConnection;
   };
+  
 
   return (
     <div className="container">

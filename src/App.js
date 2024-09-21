@@ -102,17 +102,17 @@ import Invalid from "./pages/invalid";
 import Aboutus from "./pages/aboutus";
 import Signup from "./pages/signup";
 import Login from "./pages/login";
-import Logins from "./pages/logincomponent";
 import P2 from "./pages/p2";
+import Webrtc from "./pages/webrtc";
 import CategoryPage from "./pages/categorypage"; // Import the CategoryPage component
 
 function AppContent() {
   const location = useLocation();
   return (
     <>
-      {location.pathname !== '/' && location.pathname !== '/signup' && <Navbar />}
+      {location.pathname !== '/login' && location.pathname !== '/signup' && <Navbar />}
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/p1" element={<Product1 />} />
         <Route path="/customercare" element={<Custserv />} />
         <Route path="/confirmorder" element={<Conford />} />
@@ -120,9 +120,9 @@ function AppContent() {
         <Route path="/orders" element={<Orders />} />
         <Route path="*" element={<Invalid />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Login />} />
-        <Route path="/logins" element={<Logins />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/p2" element={<P2 />} />
+        <Route path="/web" element={<Webrtc/>}/>
         <Route path="/category/:categoryName" element={<CategoryPage />} /> {/* Add category route */}
       </Routes>
     </>
